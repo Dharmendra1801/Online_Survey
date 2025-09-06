@@ -29,9 +29,9 @@
         <property name="hbm2ddl.auto">update</property>
 
         <!-- Mapping class -->
-        <mapping class="com.Project.UserDetails"/>
-        <mapping class="com.Project.SurveyDetails"/>
-        <mapping class="com.Project.Options"/>
+        <mapping class="com.Project.Entity.UserDetails"/>
+        <mapping class="com.Project.Entity.SurveyDetails"/>
+        <mapping class="com.Project.Entity.Options"/>
 
     </session-factory>
 </hibernate-configuration>

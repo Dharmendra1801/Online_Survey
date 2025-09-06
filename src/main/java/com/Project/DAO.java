@@ -1,18 +1,20 @@
 package com.Project;
 
+import java.util.Collections;
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import com.Project.Entity.Options;
+import com.Project.Entity.SurveyDetails;
+import com.Project.Entity.UserDetails;
 
 public class DAO {
 	private static SessionFactory sessionFactory;
 
     static {
         try {
-        	System.out.print(false);
             sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -76,14 +78,62 @@ public class DAO {
     	Transaction t = s.beginTransaction();
     	
     	Long count;
+    	
     	try {
     		count = (Long) s.createQuery("select count(*) from SurveyDetails where email = :email").setParameter("email", email).uniqueResult();
     	}
     	catch (Exception e) {
     		return 0L;
     	}
+    	
+    	t.commit();
+    	s.close();
+    	
     	return count;
     }
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getAllSurveyQ(String email) {
+		
+		Session s = sessionFactory.openSession();
+    	
+    	List<Object[]> list;
+    	
+    	try {
+    		list = s.createQuery("select SurveyID, question from SurveyDetails where email = :email")
+    				.setParameter("email", email)
+    				.list();
+    	}
+    	catch (Exception e) {
+    		return Collections.EMPTY_LIST;
+    	}
+    	
+    	s.close();
+    	
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> getOptions(String id) {
+		
+		Session s = sessionFactory.openSession();
+    	
+    	List<String> list;
+    	
+    	try {
+    		list = s.createQuery("select concat(o.Op, ' (', o.percent, '%)') from Options o where o.SurveyID = :id")
+    			    .setParameter("id", id)
+    			    .getResultList();
+
+    	}
+    	catch (Exception e) {
+    		return Collections.EMPTY_LIST;
+    	}
+    	
+    	s.close();
+    	
+    	return list;
+	}
 }
 
 

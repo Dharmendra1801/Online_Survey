@@ -15,15 +15,15 @@
     <h2>Welcome <%= session.getAttribute("name") %> </h2>
 
     <form action="AddSurvey.jsp" method="post">
-    <input type="submit" value="Add Survey">
+    	<input type="submit" value="Add Survey">
     </form>
     <br>
-    <form action="AddSurvey" method="post">
-    <input type="submit" value="Your Surveys">
+    <form action="ShowSurveys" method="get">
+    	<input type="submit" value="Your Surveys">
     </form>
     <br>
     <form action="LogoutServlet">
-    <input type="submit" value="logout">
+    	<input type="submit" value="logout">
     </form>
 </div>
 </body>
